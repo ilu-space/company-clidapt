@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clidapt — Be the answer for humans and AI alike</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0F2B46;
+    --teal: #3ECFAF;
+    --teal-light: #d0f5ee;
+    --teal-dark: #2baf92;
+    --white: #ffffff;
+    --off-white: #f6faf9;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-400: #94a3b8;
+    --gray-600: #475569;
+    --gray-800: #1e293b;
+    --font-body: 'Inter', sans-serif;
+    --font-heading: 'Playfair Display', serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--gray-800);
+    background: var(--white);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(15,43,70,0.97);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6%;
+    height: 68px;
+    border-bottom: 1px solid rgba(62,207,175,0.15);
+  }
+
+  .nav-logo {
+    font-family: var(--font-heading);
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+
+  .nav-logo span { color: var(--teal); }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--teal); }
+
+  .nav-cta {
+    background: var(--teal);
+    color: var(--navy) !important;
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 700 !important;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--teal-dark) !important; color: var(--white) !important; }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 120px 6% 80px;
+  }
+
+  .hero-bg-glow {
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(62,207,175,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-bg-glow-2 {
+    position: absolute;
+    bottom: -20%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(62,207,175,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(62,207,175,0.12);
+    border: 1px solid rgba(62,207,175,0.3);
+    color: var(--teal);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--teal);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--teal);
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.75;
+    max-width: 520px;
+    margin-bottom: 2rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--teal);
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.25s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover { background: var(--teal-dark); color: var(--white); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(62,207,175,0.3); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: rgba(255,255,255,0.8);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: all 0.25s;
+  }
+
+  .btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* Hero visual panel */
+  .hero-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .search-surface-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: border-color 0.3s;
+    animation: slideInRight 0.6s ease both;
+  }
+
+  .search-surface-card:nth-child(1) { animation-delay: 0.1s; }
+  .search-surface-card:nth-child(2) { animation-delay: 0.25s; }
+  .search-surface-card:nth-child(3) { animation-delay: 0.4s; }
+  .search-surface-card:nth-child(4) { animation-delay: 0.55s; }
+
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .search-surface-card:hover { border-color: rgba(62,207,175,0.4); }
+
+  .surface-icon {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    background: rgba(62,207,175,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .surface-info { flex: 1; }
+
+  .surface-name {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.2rem;
+  }
+
+  .surface-desc {
+    font-size: 0.73rem;
+    color: rgba(255,255,255,0.45);
+  }
+
+  .surface-status {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--teal);
+  }
+
+  .surface-status::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--teal);
+    border-radius: 50%;
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 96px 6%; }
+
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal-dark);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.05rem;
+    color: var(--gray-600);
+    max-width: 600px;
+    line-height: 1.75;
+  }
+
+  /* ── PROBLEM STRIP ── */
+  #problem {
+    background: var(--navy);
+    padding: 64px 6%;
+  }
+
+  .problem-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .problem-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 1.75rem;
+  }
+
+  .problem-card-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .problem-card h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+
+  .problem-card p {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.7;
+  }
+
+  /* ── METHODOLOGY ── */
+  #methodology {
+    background: var(--off-white);
+  }
+
+  .methodology-header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3.5rem;
+  }
+
+  .steps-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  .step-block {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    flex-shrink: 0;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--teal);
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .step-content h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.4rem;
+  }
+
+  .step-content p {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    line-height: 1.75;
+  }
+
+  .methodology-visual {
+    background: var(--navy);
+    border-radius: 16px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .mv-title {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: var(--white);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .mv-subtitle {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .mv-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .mv-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.6);
+    width: 110px;
+    flex-shrink: 0;
+  }
+
+  .mv-bar-track {
+    flex: 1;
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .mv-bar-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, var(--teal), #2baf92);
+  }
+
+  .mv-pct {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--teal);
+    width: 36px;
+    text-align: right;
+  }
+
+  /* ── SERVICES ── */
+  #services { background: var(--white); }
+
+  .services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .service-card {
+    background: var(--off-white);
+    border: 1px solid var(--gray-200);
+    border-radius: 14px;
+    padding: 2rem;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--teal);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s;
+  }
+
+  .service-card:hover {
+    border-color: var(--teal);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(15,43,70,0.1);
+  }
+
+  .service-card:hover::before { transform: scaleY(1); }
+
+  .service-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .service-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+
+  .service-card p {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    line-height: 1.75;
+  }
+
+  /* ── FOUNDER NOTE ── */
+  #founder {
+    background: var(--navy);
+    padding: 96px 6%;
+  }
+
+  .founder-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .founder-avatar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .founder-avatar {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(62,207,175,0.3), rgba(62,207,175,0.05));
+    border: 2px solid rgba(62,207,175,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+  }
+
+  .founder-name {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--white);
+    text-align: center;
+  }
+
+  .founder-role {
+    font-size: 0.75rem;
+    color: var(--teal);
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .founder-quote-mark {
+    font-family: var(--font-heading);
+    font-size: 5rem;
+    line-height: 1;
+    color: var(--teal);
+    opacity: 0.4;
+    margin-bottom: -1.5rem;
+    display: block;
+  }
+
+  .founder-text {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.85;
+    font-style: italic;
+  }
+
+  .founder-text strong {
+    color: var(--white);
+    font-style: normal;
+  }
+
+  .founder-creds {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .cred-chip {
+    background: rgba(62,207,175,0.12);
+    border: 1px solid rgba(62,207,175,0.25);
+    color: var(--teal);
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.3rem 0.75rem;
+    border-radius: 100px;
+  }
+
+  /* ── FAQ ── */
+  #faq { background: var(--off-white); }
+
+  .faq-grid {
+    max-width: 800px;
+    margin: 2.5rem auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--gray-200);
+  }
+
+  .faq-item:first-child { border-top: 1px solid var(--gray-200); }
+
+  .faq-q {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 1.25rem 0;
+    font-family: var(--font-body);
+    font-size: 0.975rem;
+    font-weight: 600;
+    color: var(--navy);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .faq-q:hover { color: var(--teal-dark); }
+
+  .faq-arrow {
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    transition: transform 0.3s;
+    color: var(--teal);
+  }
+
+  .faq-item.open .faq-arrow { transform: rotate(180deg); }
+
+  .faq-a {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    line-height: 1.8;
+    padding-bottom: 1.25rem;
+    display: none;
+  }
+
+  .faq-item.open .faq-a { display: block; }
+
+  /* ── CTA ── */
+  #cta {
+    background: linear-gradient(135deg, var(--navy) 0%, #0d3d5e 100%);
+    padding: 96px 6%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #cta::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(62,207,175,0.1) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .cta-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-inner .section-title { color: var(--white); }
+
+  .cta-inner .section-subtitle {
+    color: rgba(255,255,255,0.6);
+    margin: 0 auto 2.5rem;
+    max-width: 520px;
+  }
+
+  .cta-form {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .cta-form input[type="email"] {
+    flex: 1;
+    min-width: 220px;
+    padding: 0.9rem 1.25rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.07);
+    color: var(--white);
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .cta-form input[type="email"]::placeholder { color: rgba(255,255,255,0.35); }
+  .cta-form input[type="email"]:focus { border-color: var(--teal); }
+
+  .cta-form button {
+    padding: 0.9rem 1.75rem;
+    background: var(--teal);
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    transition: all 0.2s;
+  }
+
+  .cta-form button:hover { background: var(--teal-dark); color: var(--white); }
+
+  .cta-note {
+    margin-top: 1rem;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .cta-or {
+    margin: 2rem auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: rgba(255,255,255,0.3);
+    font-size: 0.8rem;
+    max-width: 320px;
+  }
+
+  .cta-or::before, .cta-or::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+  }
+
+  .cta-call-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--teal);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: 1px solid rgba(62,207,175,0.35);
+    padding: 0.75rem 1.75rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+
+  .cta-call-link:hover { background: rgba(62,207,175,0.1); border-color: var(--teal); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #08192a;
+    padding: 2.5rem 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-logo {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--white);
+  }
+
+  .footer-logo span { color: var(--teal); }
+
+  .footer-copy {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .footer-madmantra a {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.35);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-madmantra a:hover { color: var(--teal); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .problem-inner { grid-template-columns: 1fr; }
+    .steps-wrapper { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .founder-inner { grid-template-columns: 1fr; text-align: center; }
+    .founder-avatar-wrap { margin: 0 auto; }
+    .founder-creds { justify-content: center; }
+  }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    section { padding: 64px 5%; }
+    .services-grid { grid-template-columns: 1fr; }
+    .methodology-visual { margin-top: 2rem; }
+    .services-header { flex-direction: column; align-items: flex-start; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Clid<span>apt</span></div>
+  <ul class="nav-links">
+    <li><a href="#methodology">Approach</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#founder">About</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#cta" class="nav-cta">Book a Call</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-glow"></div>
+  <div class="hero-bg-glow-2"></div>
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="hero-badge">Nordic SEO &amp; GEO Consultancy</div>
+      <h1 class="hero-title">
+        Be the answer —<br>
+        for humans and<br>
+        <em>AI alike.</em>
+      </h1>
+      <p class="hero-subtitle">
+        Search has changed. Your buyers no longer just Google — they ask ChatGPT, prompt Perplexity, and read AI Overviews. Clidapt helps growth-stage companies dominate organic discovery across every surface: traditional and AI-powered.
+      </p>
+      <div class="hero-actions">
+        <a href="#cta" class="btn-primary">Book a Discovery Call ↗</a>
+        <a href="#methodology" class="btn-ghost">See Our Approach</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="search-surface-card">
+        <div class="surface-icon">🔍</div>
+        <div class="surface-info">
+          <div class="surface-name">Google &amp; Bing</div>
+          <div class="surface-desc">Traditional organic rankings &amp; AI Overviews</div>
+        </div>
+        <div class="surface-status">Optimized</div>
+      </div>
+      <div class="search-surface-card">
+        <div class="surface-icon">🤖</div>
+        <div class="surface-info">
+          <div class="surface-name">ChatGPT Search</div>
+          <div class="surface-desc">Citation &amp; source authority</div>
+        </div>
+        <div class="surface-status">Optimized</div>
+      </div>
+      <div class="search-surface-card">
+        <div class="surface-icon">💡</div>
+        <div class="surface-info">
+          <div class="surface-name">Perplexity AI</div>
+          <div class="surface-desc">Generative answer placement</div>
+        </div>
+        <div class="surface-status">Optimized</div>
+      </div>
+      <div class="search-surface-card">
+        <div class="surface-icon">✨</div>
+        <div class="surface-info">
+          <div class="surface-name">AI Overviews (SGE)</div>
+          <div class="surface-desc">Featured &amp; cited in zero-click results</div>
+        </div>
+        <div class="surface-status">Optimized</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM STRIP -->
+<section id="problem">
+  <div class="problem-inner">
+    <div class="problem-card">
+      <div class="problem-card-icon">📉</div>
+      <h3>Your organic traffic is changing shape</h3>
+      <p>AI-generated answers now sit above organic results on a growing share of queries. Companies that ignore GEO are losing visibility they don't even know they had.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-card-icon">🕵️</div>
+      <h3>AI models don't know your brand yet</h3>
+      <p>Large language models cite sources they trust. If your content isn't structured for AI discovery, your competitors — not you — get recommended when buyers ask.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-card-icon">🔀</div>
+      <h3>SEO and GEO need to move together</h3>
+      <p>Running two separate strategies wastes budget and creates gaps. A unified approach ensures every piece of content earns visibility on both traditional and generative surfaces.</p>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section id="methodology">
+  <div class="section-inner">
+    <div class="methodology-header">
+      <div class="section-label">Our Approach</div>
+      <h2 class="section-title">A framework built<br>for the new search landscape</h2>
+      <p class="section-subtitle">We don't bolt GEO onto old-school SEO. We build a unified discovery strategy from the ground up — starting with where your visibility gaps actually live.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
+      <div class="steps-wrapper">
+        <div class="step-block">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h3>Unified Visibility Audit</h3>
+            <p>We map your current presence across Google, Bing, ChatGPT Search, Perplexity, and AI Overviews — identifying exactly where your brand is missing, misrepresented, or outranked by competitors.</p>
+          </div>
+        </div>
+        <div class="step-block">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h3>Technical Foundation</h3>
+            <p>We fix the structural issues — schema markup, crawlability, Core Web Vitals, entity clarity — that prevent both search engines and AI models from understanding and trusting your site.</p>
+          </div>
+        </div>
+        <div class="step-block">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h3>Content &amp; Entity Strategy</h3>
+            <p>We build a content roadmap targeting high-intent queries and position your brand as the definitive answer — structured so AI models cite you, not your competitors.</p>
+          </div>
+        </div>
+        <div class="step-block">
+          <div class="step-num">04</div>
+          <div class="step-content">
+            <h3>Measure, Iterate, Train</h3>
+            <p>Custom dashboards track traditional rankings alongside AI citation frequency and generative share-of-voice. We review monthly and train your team to own the strategy long-term.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="methodology-visual">
+        <div>
+          <div class="mv-title">Typical Visibility Coverage</div>
+          <div class="mv-subtitle">Before vs. After a Clidapt engagement</div>
+        </div>
+        <div>
+          <div class="mv-row" style="margin-bottom:1.25rem;">
+            <div class="mv-label">Google Organic</div>
+            <div class="mv-bar-track"><div class="mv-bar-fill" style="width:90%"></div></div>
+            <div class="mv-pct">90%</div>
+          </div>
+          <div class="mv-row" style="margin-bottom:1.25rem;">
+            <div class="mv-label">AI Overviews</div>
+            <div class="mv-bar-track"><div class="mv-bar-fill" style="width:78%"></div></div>
+            <div class="mv-pct">78%</div>
+          </div>
+          <div class="mv-row" style="margin-bottom:1.25rem;">
+            <div class="mv-label">ChatGPT Citations</div>
+            <div class="mv-bar-track"><div class="mv-bar-fill" style="width:65%"></div></div>
+            <div class="mv-pct">65%</div>
+          </div>
+          <div class="mv-row">
+            <div class="mv-label">Perplexity</div>
+            <div class="mv-bar-track"><div class="mv-bar-fill" style="width:70%"></div></div>
+            <div class="mv-pct">70%</div>
+          </div>
+        </div>
+        <p style="font-size:0.72rem; color:rgba(255,255,255,0.3); line-height:1.6;">Coverage targets are illustrative and depend on your starting point, industry, and content investment. We set realistic expectations in every engagement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="services-header">
+      <div>
+        <div class="section-label">What We Do</div>
+        <h2 class="section-title">Six ways we grow<br>your organic visibility</h2>
+      </div>
+      <p class="section-subtitle" style="max-width:380px;">Every engagement is scoped to your specific situation — we don't sell retainer packages you don't need.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-icon">🔍</span>
+        <h3>SEO + GEO Unified Audit</h3>
+        <p>Comprehensive analysis of your visibility across Google, Bing, ChatGPT Search, Perplexity, and AI Overviews — with a prioritized roadmap to close gaps.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🤖</span>
+        <h3>AI Citation Optimization</h3>
+        <p>Structured content and entity strategies designed to make your brand the source that AI models cite, recommend, and surface in generative answers.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">⚙️</span>
+        <h3>Technical SEO Architecture</h3>
+        <p>Site structure, schema markup, Core Web Vitals, and crawlability optimization to build the technical foundation that both search engines and LLMs trust.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">📝</span>
+        <h3>Content Strategy &amp; Production</h3>
+        <p>Data-driven content roadmaps that target high-intent queries and position your brand as the authoritative answer across every search surface.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">📊</span>
+        <h3>Analytics &amp; Visibility Tracking</h3>
+        <p>Custom dashboards tracking traditional rankings, AI mention frequency, citation rates, and share-of-voice across generative platforms — with privacy-first GDPR compliance.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🎓</span>
+        <h3>Team Training &amp; Enablement</h3>
+        <p>Hands-on workshops and playbooks to upskill your in-house marketing team on GEO best practices, so you build lasting internal capability.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER NOTE -->
+<section id="founder">
+  <div class="founder-inner">
+    <div class="founder-avatar-wrap">
+      <div class="founder-avatar">🌍</div>
+      <div class="founder-name">Clidapt Founders</div>
+      <div class="founder-role">Nordic SEO &amp; GEO Consultancy</div>
+    </div>
+    <div>
+      <span class="founder-quote-mark">"</span>
+      <p class="founder-text">
+        We started Clidapt because we saw a real problem unfolding: <strong>good companies with strong products were becoming invisible — not because their SEO failed, but because the search landscape shifted under their feet.</strong> AI-generated answers now handle queries that used to send traffic to organic results. Most SEO agencies aren't built for this new world. We are. We're a small Nordic team with deep roots in technical SEO and a genuine obsession with how large language models discover, evaluate, and cite sources. <strong>We take a small number of clients at a time, because doing this well requires real attention — not templated reports.</strong> If organic search matters to your pipeline, let's talk.
+      </p>
+      <div class="founder-creds">
+        <span class="cred-chip">Technical SEO</span>
+        <span class="cred-chip">Generative Engine Optimization</span>
+        <span class="cred-chip">Entity & Schema Strategy</span>
+        <span class="cred-chip">GDPR-Compliant Analytics</span>
+        <span class="cred-chip">Nordic-Based</span>
+        <span class="cred-chip">B2B Organic Growth</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-inner" style="text-align:center;">
+    <div class="section-label">Common Questions</div>
+    <h2 class="section-title">What you're probably<br>wondering about</h2>
+  </div>
+  <div class="faq-grid">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        What exactly is GEO, and why should I care about it now?
+        <span class="faq-arrow">▼</span>
+      </button>
+      <div class="faq-a">Generative Engine Optimization (GEO) is the practice of structuring your content and online presence so that AI-powered platforms — ChatGPT, Perplexity, Google's AI Overviews, and similar — cite, recommend, and surface your brand in their generated answers. As a growing share of search journeys now begin with or pass through these tools, being absent from AI-generated answers is increasingly costly for B2B pipeline generation. GEO doesn't replace SEO — it extends it into the new layer of discovery.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        We already have an SEO agency. Why do we need Clidapt?
+        <span class="faq-arrow">▼</span>
+      </button>
+      <div class="faq-a">Most traditional SEO agencies are optimizing for a world that's changing rapidly. They track Google rankings, build links, and publish content — but very few have built the expertise to optimize for how large language models discover and evaluate sources. We complement or, in some cases, replace traditional SEO with a strategy that covers both surfaces. We're happy to scope an engagement that works alongside your existing team.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        How long before we see results?
+        <span class="faq-arrow">▼</span>
+      </button>
+      <div class="faq-a">Honest answer: organic search — whether traditional or generative — is a medium-term game. Technical fixes and structural improvements can show results in weeks. Content strategy and AI citation building typically takes three to six months to compound meaningfully. We'll be transparent about timelines in your discovery call and won't oversell quick wins we can't deliver.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        What size of company do you work best with?
+        <span class="faq-arrow">▼</span>
+      </button>
+      <div class="faq-a">We're designed for growth-stage and mid-market B2B companies — typically SaaS, tech, e-commerce, or professional services firms with 50 to 500 employees — where organic search drives a meaningful portion of pipeline and the team has enough resources to act on recommendations. We're not the right fit for very early pre-product startups or large enterprises with massive in-house SEO teams.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        How do you measure success in GEO when it's so new?
+        <span class="faq-arrow">▼</span>
+      </button>
+      <div class="faq-a">We track a combination of signals: AI mention frequency (how often your brand appears in generative answers for target queries), citation rate across platforms like Perplexity and ChatGPT Search, traditional ranking movements, and — most importantly — organic pipeline contribution. The tooling is evolving quickly, and we'll be honest about where measurement is still imperfect. Our custom dashboards bring the best available signals together in one place.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Do you work on a retainer or project basis?
+        <span class="faq-arrow">▼</span>
+      </button>
+      <div class="faq-a">Both. We often start with a scoped audit and roadmap project, then move into ongoing retainer work if there's a mutual fit. We don't lock clients into long contracts on day one — we'd rather earn the relationship by delivering value first. Engagement structure and pricing is discussed transparently in the discovery call.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        You're a new consultancy. How can we trust you with something this important?
+        <span class="faq-arrow">▼</span>
+      </button>
+      <div class="faq-a">That's a fair question to ask any new firm. What we can offer: complete transparency about our approach (you'll see the methodology before you sign anything), a clearly scoped initial engagement with defined deliverables, and direct access to the practitioners doing the work — not an account manager passing messages. We're building this business one client at a time, and every outcome matters to us disproportionately. Book a call and make your own assessment.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-inner">
+    <div class="section-label" style="color:var(--teal);">Let's Talk</div>
+    <h2 class="section-title">Ready to be the answer<br>across every surface?</h2>
+    <p class="section-subtitle">Book a no-obligation discovery call and we'll map out exactly where your visibility gaps are — and what it would take to close them.</p>
+
+    <a href="mailto:hello@clidapt.com" class="cta-call-link">📅 &nbsp;Request a Discovery Call</a>
+
+    <div class="cta-or">or get updates by email</div>
+
+    <form class="cta-form">
+      <input type="email" placeholder="your@company.com" required>
+      <button type="submit">Stay Informed →</button>
+    </form>
+    <p class="cta-note">No spam. No newsletters you didn't ask for. We'll reach out if we have something worth saying.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Clid<span>apt</span></div>
+  <div class="footer-copy">© <span class="year"></span> Clidapt. All rights reserved.</div>
+  <div class="footer-madmantra">Powered by <a href="https://madmantra.com" target="_blank" rel="noopener">MadMantra</a></div>
+</footer>
+
+<script>
+  // Year
+  document.querySelectorAll('.year').forEach(e => e.textContent = new Date().getFullYear());
+
+  // FAQ toggle
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Mobile nav
+  function toggleMenu() {
+    const links = document.querySelector('.nav-links');
+    if (links.style.display === 'flex') {
+      links.style.display = 'none';
+    } else {
+      links.style.cssText = 'display:flex; flex-direction:column; position:fixed; top:68px; left:0; right:0; background:#0F2B46; padding:1.5rem 6%; gap:1.25rem; border-bottom:1px solid rgba(62,207,175,0.15);';
+      links.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => { links.style.display = 'none'; });
+      });
+    }
+  }
+
+  // Email form submission
+  document.querySelectorAll('form').forEach(function(form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var email = form.querySelector('input[type="email"]').value;
+      fetch('https://api.madmantra.app/api/landing/clidapt/signup', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email: email})
+      }).then(function() {
+        form.innerHTML = '<p style="padding:12px;color:#3ECFAF;font-weight:600">Thanks! We will be in touch.</p>';
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
